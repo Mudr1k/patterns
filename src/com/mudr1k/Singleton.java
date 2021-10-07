@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Singleton {
 
-    public static final Singleton single = new Singleton();
+    private static Singleton single;
     private String time;
 
     private Singleton() {
@@ -15,6 +15,14 @@ public class Singleton {
     public String getTime() {
         return time;
     }
+
+    public static Singleton getInstance() {
+        if (single == null) {
+            single = new Singleton();
+        }
+        return single;
+    }
+
 
 }
 
