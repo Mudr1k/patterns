@@ -6,17 +6,19 @@ public class Singleton {
 
     private static volatile Singleton single;
     private static final Object lock = new Object();
-    private String time;
+    private static String time;
 
     public static Singleton getInstance() {
-        if (single == null) {
-            synchronized (lock) {
-                if (single == null) {
-                    single = new Singleton();
-                }
-            }
+        Singleton result = single;
+        if (result != null) {
+            return result;
         }
-        return single;
+        synchronized (lock) {
+            if (single == null) {
+                single = new Singleton();
+            }
+            return single;
+        }
     }
 
     private Singleton() {
