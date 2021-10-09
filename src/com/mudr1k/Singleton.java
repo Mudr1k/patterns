@@ -1,24 +1,16 @@
 package com.mudr1k;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Singleton {
 
-    private static Singleton single;
+    private static volatile Singleton single;
+    private static final Object lock = new Object();
     private String time;
-
-    private Singleton() {
-        time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-    }
-
-    public String getTime() {
-        return time;
-    }
 
     public static Singleton getInstance() {
         if (single == null) {
-            synchronized (Singleton.class) {
+            synchronized (lock) {
                 if (single == null) {
                     single = new Singleton();
                 }
@@ -27,7 +19,13 @@ public class Singleton {
         return single;
     }
 
+    private Singleton() {
+        time = LocalDateTime.now().toString();
+    }
 
+    public String getTime() {
+        return time;
+    }
 }
 
 
